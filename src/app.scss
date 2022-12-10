@@ -1,0 +1,300 @@
+*, *:before, *:after{
+    box-sizing: border-box;
+}
+
+html, body, div, span, object, iframe, figure, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, code, em, img, small, strike, strong, sub, sup, tt, b, u, i, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, main, canvas, embed, footer, header, nav, section, video{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    text-size-adjust: none;
+}
+
+footer, header, nav, section, main{
+    display: block;
+}
+
+body{
+    line-height: 1;
+}
+
+ol, ul{
+    list-style: none;
+}
+
+blockquote, q{
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after{
+    content: '';
+    content: none;
+}
+
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+input{
+    -webkit-appearance: none;
+    border-radius: 0;
+    outline: none;
+    border: none;
+}
+
+button {
+    background: none;
+    border: none;
+    font-family: 'Josefin Sans', sans-serif;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+//variables
+$primary-blue: hsl(220, 98%, 61%);
+$primary-bg: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+
+//light theme
+$light-gray: hsl(0, 0%, 98%);
+$light-grayish-blue: hsl(236, 33%, 92%);
+$grayish-blue: hsl(236, 9%, 61%);
+$light-dark-grayish-blue: hsl(235, 19%, 35%);
+
+//dark theme
+$dark-blue: hsl(235, 21%, 11%);
+$dark-desaturated-blue: hsl(235, 24%, 19%);
+$dark-light-grayish-blue: hsl(234, 39%, 85%);
+$dark-light-grayish-blue-hover: hsl(236, 33%, 92%);
+$dark-grayish-blue: hsl(234, 11%, 52%);
+$very-dark-grayish-blue: hsl(233, 14%, 35%);
+$second-very-dark-grayish-blue: hsl(237, 14%, 26%);
+
+$font-s: 18px;
+
+//end variables 
+
+
+
+.App {
+    display: flex;
+    align-items: center;
+    font-family: 'Josefin Sans', sans-serif;
+    flex-flow: column;
+    max-width: 540px;
+    margin: 0 auto;
+
+    @media screen and (max-width: 767px) {
+        max-width: 320px;
+    }
+    
+    picture {
+        width: 100%;
+        position: absolute;
+        z-index: -1;
+
+        img {
+            object-fit: cover;
+            width: 100%;
+
+            @media screen and (max-width: 1199px) {
+                min-height: 200px;
+            }
+
+            @media screen and (max-width: 767px) {
+                max-height: 200px;
+            }
+        }
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-top: 80px;
+        
+        @media screen and (max-width: 1199px) {
+            margin-top: 50px;
+        }
+
+        @media screen and (max-width: 767px) {
+            margin-top: 40px;
+        }
+        
+        .name {
+            font-size: calc(2 * #{$font-s});
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5rem;
+
+            @media screen and (max-width: 1199px) {
+                font-size: calc(1.5 * #{$font-s});
+            }
+        }
+        
+        .light {
+            display: none;
+        }
+    }
+
+
+    input[type="text"] {
+        font-size: $font-s;
+        font-family: 'Josefin Sans', sans-serif;
+        font-weight: 400;
+    }
+
+    input[type="checkbox"] {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+
+
+    span.checkbox {
+        display: flex;
+        border-radius: 50%;
+        border: 1px $light-grayish-blue solid;
+        width: 24px;
+        height: 24px;
+        margin-right: 15px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            border: 1px transparent solid;
+            background: linear-gradient(white, white) padding-box,
+            $primary-bg border-box;
+        }
+
+        &.completed {
+            background: $primary-bg padding-box,
+            $primary-bg border-box;
+        }
+
+        svg {
+            margin: auto;
+        }
+    }
+    
+    .create-task {
+        margin: 50px 0 20px;
+        width: 100%;
+        background-color: white;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+
+        @media screen and (max-width: 1199px) {
+            margin: 25px 0 10px;
+        }
+
+        @media screen and (max-width: 767px) {
+            margin: 40px 0 20px;
+        }
+    }
+    
+    .todo {
+        padding: 15px;
+        display: flex;
+        align-items: flex-end;
+        border-bottom: 1px solid $light-grayish-blue;
+        
+        &-list {
+            width: 100%;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow:  0 5px 10px 0 $light-grayish-blue;
+    
+        }
+        
+        &-text {
+            font-size: $font-s;
+            cursor: pointer;
+        }
+        
+        &-delete {
+            margin-left: auto;
+            margin-right: 10px;
+            cursor: pointer;
+            fill: $light-grayish-blue;
+            
+            &:hover {
+                fill: $light-dark-grayish-blue;
+            }
+        }
+        
+        &-additional {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            
+            .count {
+                font-size: $font-s;
+                color: $dark-light-grayish-blue;
+            }
+            
+            .filters {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                @media screen and (max-width: 767px) {
+                    position: absolute;
+                    top: 150%;
+                    left: 0;
+                    width: 100%;
+                    border-radius: 5px;
+                    background-color: white;
+                    box-shadow:  0 5px 10px 0 $light-grayish-blue;
+                    padding: 15px;
+                    justify-content: center;
+                }
+                
+                button {
+                    color: $dark-grayish-blue;
+                    font-size: $font-s;
+                    
+                    &:hover {
+                        color: $dark-blue
+                    }
+                    
+                    &.active {
+                        color: $primary-blue;
+                    }
+                }
+            }
+            
+            .delete {
+                color: $dark-grayish-blue;
+                font-size: $font-s;
+
+                &:hover {
+                    color: $dark-blue
+                }
+            }
+        }
+    }
+    
+    .info {
+        font-size: $font-s;
+        margin: 2rem auto;
+        color: $dark-grayish-blue;
+
+        @media screen and (max-width: 767px) {
+            margin: 100px auto;
+        }
+    }
+}
