@@ -62,12 +62,12 @@ const App = () => {
     const addTask = (text, isCompleted) => setTasks([...tasks, {id: tasks.pop().id + 1, text, isCompleted}]);
 
     const toggleTask = id => {
-        const newTasks = [...tasks];
+        const newTasks = [...filtered];
         newTasks.map((el) => {
             if (el.id === id)
                 el.isCompleted = !el.isCompleted
         })
-        setTasks(newTasks);
+        setFiltered(newTasks);
     };
 
     const removeTask = id => {
@@ -91,6 +91,43 @@ const App = () => {
         let newTasks = [...tasks].filter( el => el.isCompleted !== true)
         setTasks(newTasks);
     }
+    
+    const [currentTask, setCurrentTask] = useState(null);
+
+    const dragStartHandler = (e, task) => {
+        setCurrentTask(task)
+    }
+
+    const dragEndHandler = (e) => {
+        e.target.style.background = 'white';
+    }
+
+    const dragOverHandler = (e) => {
+        e.preventDefault();
+        e.target.style.background = 'lightgray';
+    }
+
+    const dropHandler = (e, task) => {
+        e.preventDefault();
+        setFiltered(filtered.map(e => {
+            if (e.id === task.id) {
+                return {...e, id: currentTask.id}
+            }
+            if (e.id === currentTask.id) {
+                return {...e, id: task.id}
+            }
+            return e;
+        }))
+        e.target.style.background = 'white';
+    }
+    
+    const sortTasks = (a,b) => {
+        if (a.id > b.id) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 
     return (
 
@@ -108,8 +145,16 @@ const App = () => {
 
 
             <div className="todo-list">
-                {filtered.map((task) => (
-                    <div className="todo" key={task.id}>
+                {filtered.sort(sortTasks).map((task) => (
+                    <div className="todo" 
+                         key={task.id}
+                         draggable={true}
+                         onDragStart={(e) => dragStartHandler(e, task)}
+                         onDragLeave={(e) => dragEndHandler(e)}
+                         onDragEnd={(e) => dragEndHandler(e)}
+                         onDragOver={(e) => dragOverHandler(e)}
+                         onDrop={(e) => dropHandler(e, task)}
+                    >
                         <span className={task.isCompleted ? "checkbox completed" : "checkbox"} onClick={() => toggleTask(task.id)}>
                             <Check/>
                         </span>
@@ -119,7 +164,7 @@ const App = () => {
                 ))}
                 
                 <div className="todo-additional">
-                    <p className="count">{tasks.filter(el=> el['isCompleted'] === false).length} items left</p>
+                    <p className="count">{filtered.filter(el=> el['isCompleted'] === false).length} items left</p>
                     <div className="filters">
                         <button onClick={() => todoFilter('all')} className={filteredStatus === 'all' ? 'active':''}>All</button>
                         <button onClick={() => todoFilter(false)} className={filteredStatus === false ? 'active':''}>Active</button>

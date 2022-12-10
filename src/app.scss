@@ -176,13 +176,19 @@ $font-s: 18px;
             $primary-bg border-box;
         }
 
+        svg {
+            margin: auto;
+            display: none;
+        }
+
         &.completed {
             background: $primary-bg padding-box,
             $primary-bg border-box;
-        }
 
-        svg {
-            margin: auto;
+            svg {
+                margin: auto;
+                display: block;
+            }
         }
     }
     
@@ -209,6 +215,7 @@ $font-s: 18px;
         display: flex;
         align-items: flex-end;
         border-bottom: 1px solid $light-grayish-blue;
+        cursor: grab;
         
         &-list {
             width: 100%;
@@ -220,7 +227,6 @@ $font-s: 18px;
         
         &-text {
             font-size: $font-s;
-            cursor: pointer;
         }
         
         &-delete {
